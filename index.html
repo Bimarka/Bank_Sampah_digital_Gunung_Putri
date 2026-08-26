@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Bank Sampah Digital - Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #1e293b;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 500;
+            box-shadow: 0 6px 24px rgba(0,0,0,0.2);
+            z-index: 999;
+            opacity: 0;
+            transition: all 0.3s ease;
+            max-width: 90%;
+            text-align: center;
+        }
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+        .toast.error { background: #dc2626; }
+        .toast.success { background: #16a34a; }
+        .toast.warning { background: #d97706; }
+
+        .login-page {
+            width: 100%;
+            max-width: 420px;
+            margin: 0 auto;
+        }
+        .login-wrapper {
+            background: white;
+            border-radius: 24px;
+            padding: 35px 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+        }
+        .brand-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .brand-logo {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, #10b981, #0d9488);
+            border-radius: 50%;
+            margin: 0 auto 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 28px;
+        }
+        .brand-title {
+            font-size: 22px;
+            font-weight: 800;
+            color: #0f172a;
+        }
+        .brand-subtitle {
+            font-size: 13px;
+            color: #64748b;
+        }
+        .login-card {
+            background: linear-gradient(180deg, #124e4f 0%, #0d9488 100%);
+            border-radius: 16px;
+            padding: 24px 20px;
+            color: white;
+            box-shadow: 0 8px 24px rgba(13, 148, 136, 0.25);
+        }
+        .login-card h3 {
+            font-size: 15px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .input-group {
+            position: relative;
+            margin-bottom: 12px;
+        }
+        .input-group i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #0d9488;
+            font-size: 14px;
+            z-index: 1;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 11px 12px 11px 38px;
+            border-radius: 10px;
+            border: none;
+            font-size: 13px;
+            outline: none;
+            background: white;
+        }
+        .btn-primary {
+            width: 100%;
+            padding: 11px;
+            border-radius: 10px;
+            border: none;
+            background: #042f2e;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .btn-primary:hover {
+            background: #063f3d;
+        }
+        .btn-secondary {
+            width: 100%;
+            padding: 11px;
+            border-radius: 10px;
+            border: none;
+            background: white;
+            color: #0d9488;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .btn-secondary:hover {
+            background: #f0fdf4;
+        }
+        .quick-login {
+            margin-top: 20px;
+        }
+        .quick-label {
+            font-size: 12px;
+            color: #64748b;
+            text-align: center;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        .quick-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+        .quick-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 12px 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .quick-card:hover {
+            border-color: #0d9488;
+            background: #f0fdf4;
+            transform: translateY(-2px);
+        }
+        .quick-card i {
+            font-size: 20px;
+            display: block;
+            margin-bottom: 4px;
+        }
+        .quick-card span {
+            font-size: 11px;
+            font-weight: 600;
+            color: #0f172a;
+            display: block;
+        }
+        .quick-card small {
+            font-size: 9px;
+            color: #94a3b8;
+        }
+        .quick-card.nasabah {
+            background: #dcfce7;
+            border-color: #22c55e;
+        }
+        .quick-card.nasabah i {
+            color: #15803d;
+        }
+        .quick-card.nasabah span {
+            color: #15803d;
+        }
+        .quick-card.nasabah small {
+            color: #15803d;
+        }
+        .quick-card.pengelola i { color: #2563eb; }
+        .quick-card.admin i { color: #dc2626; }
+        .login-footer {
+            text-align: center;
+            margin-top: 16px;
+            font-size: 11px;
+            color: #94a3b8;
+        }
+        .account-info {
+            margin-top: 16px;
+        }
+        .account-info details {
+            cursor: pointer;
+        }
+        .account-info summary {
+            font-size: 11px;
+            color: #64748b;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 0;
+        }
+        .account-info summary:hover {
+            color: #0d9488;
+        }
+        .account-list {
+            margin-top: 8px;
+            padding: 10px;
+            background: #f8fafc;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+        .account-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 4px 0;
+            font-size: 11px;
+        }
+        .role-badge {
+            padding: 1px 8px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 8px;
+            text-transform: uppercase;
+            min-width: 50px;
+            text-align: center;
+        }
+        .role-badge.admin { background: #fecaca; color: #dc2626; }
+        .role-badge.pengelola { background: #dbeafe; color: #2563eb; }
+        .role-badge.nasabah { background: #dcfce7; color: #15803d; }
+        .cred {
+            color: #334155;
+            font-family: monospace;
+            font-size: 10px;
+        }
+        #loadingIndicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        #loadingIndicator .loading-box {
+            background: white;
+            padding: 24px 32px;
+            border-radius: 12px;
+            text-align: center;
+            min-width: 150px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+        #loadingIndicator .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #e2e8f0;
+            border-top-color: #0d9488;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 12px;
+        }
+        #loadingIndicator .loading-text {
+            font-size: 13px;
+            color: #1e293b;
+            font-weight: 500;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .quick-login-hint {
+            font-size: 9px;
+            color: #94a3b8;
+            text-align: center;
+            margin-top: 6px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-page">
+        <div class="login-wrapper">
+            <div class="brand-section">
+                <div class="brand-logo">
+                    <i class="fa-solid fa-leaf"></i>
+                </div>
+                <h1 class="brand-title">Bank Sampah Digital</h1>
+                <p class="brand-subtitle">Desa Gunung Putri</p>
+            </div>
+
+            <div class="login-card">
+                <h3><i class="fa-solid fa-right-to-bracket"></i> Masuk ke Akun</h3>
+                
+                <div class="input-group">
+                    <i class="fa-solid fa-user"></i>
+                    <input type="text" id="loginUsername" placeholder="Username">
+                </div>
+                
+                <div class="input-group">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" id="loginPassword" placeholder="Password">
+                </div>
+                
+                <button class="btn-primary" onclick="handleLogin()" style="width:100%;justify-content:center;padding:11px;">
+                    <i class="fa-solid fa-arrow-right-to-bracket"></i> Masuk
+                </button>
+            </div>
+
+            <div class="quick-login">
+                <p class="quick-label">⚡ Klik untuk Masuk Langsung</p>
+                <div class="quick-grid">
+                    <div class="quick-card nasabah" onclick="quickLogin('nasabah')">
+                        <i class="fa-solid fa-user"></i>
+                        <span>Nasabah</span>
+                        <small>Langsung masuk</small>
+                    </div>
+                    <div class="quick-card pengelola" onclick="quickLogin('pengelola')">
+                        <i class="fa-solid fa-building-user"></i>
+                        <span>Pengelola</span>
+                        <small>Isi manual</small>
+                    </div>
+                    <div class="quick-card admin" onclick="quickLogin('admin')">
+                        <i class="fa-solid fa-user-gear"></i>
+                        <span>Admin</span>
+                        <small>Isi manual</small>
+                    </div>
+                </div>
+                <p class="quick-login-hint">
+                    💡 Nasabah: langsung masuk | Pengelola & Admin: isi manual
+                </p>
+            </div>
+
+            <div class="account-info">
+                <details>
+                    <summary><i class="fa-solid fa-key"></i> Lihat Akun Demo</summary>
+                    <div class="account-list">
+                        <div class="account-item">
+                            <span class="role-badge admin">Admin</span>
+                            <span class="cred">admin / admin123</span>
+                        </div>
+                        <div class="account-item">
+                            <span class="role-badge pengelola">BSU</span>
+                            <span class="cred">mede1 / mede123</span>
+                        </div>
+                        <div class="account-item" style="color:#15803d;">
+                            <span class="role-badge nasabah">Nasabah</span>
+                            <span class="cred">✅ Klik tombol "Nasabah" langsung masuk</span>
+                        </div>
+                    </div>
+                </details>
+            </div>
+
+            <div class="login-footer">
+                <p>&copy; 2026 Bank Sampah Digital - BSI Mandiri</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+    <div id="loadingIndicator">
+        <div class="loading-box">
+            <div class="loading-spinner"></div>
+            <div class="loading-text">Memproses...</div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.47.0/dist/umd/supabase.min.js"></script>
+    <script src="supabase-client.js"></script>
+    <script src="data-supabase.js"></script>
+    <script src="main.js"></script>
+    <script src="laporan.js"></script>
+    <script src="login.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            checkSession();
+            console.log('📋 Jumlah BSU:', window.dataBSU ? window.dataBSU.length : 0);
+            
+            console.log('🔄 Syncing data from Supabase...');
+            
+            try {
+                await syncAllData();
+                console.log('✅ Data synced successfully');
+                console.log('👤 Total Nasabah:', window.daftarNasabah ? window.daftarNasabah.length : 0);
+                console.log('📄 Total Transaksi:', window.daftarSampah ? window.daftarSampah.length : 0);
+                console.log('📋 Total BSU:', window.dataBSU ? window.dataBSU.length : 0);
+                console.log('📋 Total Harga:', Object.keys(window.hargaSampahDetail).length);
+            } catch (e) {
+                console.warn('⚠️ Gagal sync data:', e.message);
+            }
+            
+            console.log('💡 Ketik cekDataNasabah() di console untuk melihat data nasabah');
+            console.log('💡 Ketik cekDataTransaksi() di console untuk melihat transaksi');
+            console.log('💡 Ketik cekDataBSU() di console untuk melihat data BSU');
+            console.log('💡 Ketik cekDataHarga() di console untuk melihat data harga');
+        });
+    </script>
+
+</body>
+</html>
