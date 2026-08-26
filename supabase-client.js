@@ -3,8 +3,8 @@
 // KONFIGURASI SUPABASE
 // =============================================
 
-const SUPABASE_URL = 'https://hqhzglfmalajunclaulr.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_z8PfmkvjRziYDYZ9wWwMIA_CcVWJ4bM';
+const SUPABASE_URL = 'https://vblmajtmsvommvshrvac.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable__aZgF74ni19jCV8fqvkhsQ_lYHbScuJ';
 
 // Create Supabase client
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
